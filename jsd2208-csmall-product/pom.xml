@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <!-- 模型版本，当前固定为4.0.0 -->
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- 父级项目的信息，每个Spring Boot项目都是spring-boot-starter-parent的子项目 -->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.5.9</version> <!-- 创建项目时选择的版本，也可自行修改，本项目建议使用2.5.x -->
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+
+    <!-- 当前项目的信息 -->
+    <groupId>cn.tedu</groupId>
+    <artifactId>csmall-product</artifactId>
+    <version>0.0.1</version> <!-- 版本号，通常的格式是：大版本号.小版本号.修正版本号 -->
+
+    <!-- 属性配置 -->
+    <properties>
+        <java.version>1.8</java.version> <!-- 不建议使用 11/13 甚至更高版本-->
+    </properties>
+
+    <!-- 当前项目使用的依赖项 -->
+    <!-- scope标签：配置此依赖项的作用域 -->
+    <!-- scope值为test：作用域为“测试”，将不参与项目的打包、部署等 -->
+    <!-- scope值为runtime：作用域为“运行时”，即编写源代码时并不需要使用，但运行时需要 -->
+    <!-- scope值为provided：表示此依赖并不具备传递性，且需要由环境提供此依赖项 -->
+    <dependencies>
+        <!-- Spring Boot框架支持WEB开发的依赖项 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <!-- Spring Boot Validation框架，用于检查数据格式 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+        <!-- Mybatis整合Spring Boot的依赖项 -->
+        <dependency>
+            <groupId>org.mybatis.spring.boot</groupId>
+            <artifactId>mybatis-spring-boot-starter</artifactId>
+            <version>2.2.2</version>
+        </dependency>
+        <!-- Knife4j Spring Boot：在线API -->
+        <dependency>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>knife4j-spring-boot-starter</artifactId>
+            <version>2.0.9</version>
+        </dependency>
+        <!-- MySQL的依赖项 -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <!-- Lombok的依赖项，主要用于简化POJO类的编写 -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.20</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- Spring Boot的测试依赖项 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <!-- 构建项目的配置 -->
+    <build>
+        <!-- 构建项目的插件 -->
+        <plugins>
+            <!-- Spring Boot的构建插件 -->
+            <!-- 注意：如果此项出错，可以直接删除，在除了打包以外不会受到影响 -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

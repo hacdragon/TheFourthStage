@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.tedu.csmall.product.mapper.SkuSpecificationsMapper">
+    <insert id="insert">
+        insert into pms_sku_specification(sku_id, attribute_id, attribute_name, attribute_value, unit, sort)
+        values (#{skuId}, #{attributeId}, #{attributeName}, #{attributeValue}, #{unit}, #{sort})
+    </insert>
+
+    <insert id="insertBatch">
+        insert into pms_sku_specification(sku_id,attribute_id,attribute_name,attribute_value,unit,sort) values
+        <foreach collection="list" item="SkuSpecifications" separator=",">
+            (#{SkuSpecifications.skuId},#{SkuSpecifications.attributeId},#{SkuSpecifications.attributeName}
+            ,#{SkuSpecifications.attributeValue},#{SkuSpecifications.unit},#{SkuSpecifications.sort})
+        </foreach>
+    </insert>
+
+    <delete id="deleteById">
+        delete
+        from pms_picture
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteByIds">
+        delete from pms_picture where id in (
+        <foreach collection="list" item="id" separator=",">
+            #{id}
+        </foreach>
+        )
+    </delete>
+
+    <update id="update">
+        update pms_sku_specification
+        <set>
+            <if test="attributeValue!= null">
+                #{attributeValue},
+            </if>
+            <if test="attributeName!= null">
+                #{attributeName},
+            </if>
+            <if test="attributeId!= null">
+                #{attributeId},
+            </if>
+            <if test="unit!= null">
+                #{unit},
+            </if>
+            <if test="sort!= null">
+                #{sort},
+            </if>
+            <if test="gmtCreate!= null">
+                #{gmtCreate},
+            </if>
+            <if test="gmtModified!= null">
+                #{gmtModified}
+            </if>
+        </set>
+        WHERE id=#{id}
+    </update>
+
+    <select id="count" resultType="int">
+        select count(*)
+        from pms_picture
+    </select>
+
+    <select id="countByName" resultType="int">
+        select count(*)
+        from pms_picture
+    </select>
+
+    <sql id="select">
+        select id, sku_id, attribute_id, attribute_name, attribute_value, unit, sort
+        from pms_sku_specification
+    </sql>
+    <select id="getStandardById" resultType="cn.tedu.csmall.product.pojo.entity.SkuSpecifications">
+        <include refid="select">
+        </include>
+        where id=#{id}
+    </select>
+
+    <select id="list" resultType="cn.tedu.csmall.product.pojo.entity.SkuSpecifications">
+        <include refid="select">
+        </include>
+        ORDER BY sort DESC, id DESC
+    </select>
+</mapper>

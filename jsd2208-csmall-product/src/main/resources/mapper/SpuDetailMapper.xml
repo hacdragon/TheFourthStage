@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.tedu.csmall.product.mapper.SpuDetailMapper">
+    <insert id="insert">
+        insert into pms_spu_detail (spu_id,detail) values (#{spuId},#{detail})
+    </insert>
+
+    <insert id="insertBatch">
+        insert into pms_spu_detail (spu_id,detail) values
+            <foreach collection="list" item="SpuDetail" separator=",">
+                (#{SpuDetail.spuId},#{SpuDetail.detail})
+            </foreach>
+    </insert>
+
+    <delete id="deleteById">
+        delete from pms_spu_detail where id=#{id}
+    </delete>
+
+    <delete id="deleteByIds">
+        delete from pms_spu_detail where id in (
+            <foreach collection="list" item="id" separator=",">
+                #{id}
+            </foreach>
+            )
+    </delete>
+
+    <update id="update">
+        update pms_spu_detail
+            <set>
+                <if test="spu_id!= null">
+                    #{spu_id},
+                </if>
+                <if test="detail!=null">
+                    #{detail},
+                </if>
+                <if test="gmtCreate!= null">
+                    #{gmtCreate},
+                </if>
+                <if test="gmtModified!= null">
+                    #{gmtModified}
+                </if>
+            </set> where id=#{id}
+    </update>
+
+    <select id="count" resultType="int">
+    select count(*) from pms_spu_detail
+    </select>
+
+    <select id="countByName" resultType="int">
+        select count(*) from pms_spu_detail
+    </select>
+
+    <sql id="select">
+        select id,spu_id,detail from pms_spu_detail
+    </sql>
+    <select id="getStandardById" resultType="cn.tedu.csmall.product.pojo.entity.SpuDetail">
+        <include refid="select"></include> where id=#{id}
+    </select>
+
+    <select id="list" resultType="cn.tedu.csmall.product.pojo.entity.SpuDetail">
+        <include refid="select"></include> ORDER BY sort DESC, id DESC
+    </select>
+</mapper>

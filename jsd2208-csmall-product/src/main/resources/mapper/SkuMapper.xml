@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.tedu.csmall.product.mapper.SkuMapper">
+    <insert id="insert">
+        insert into pms_sku(spu_id, title, bar_code, attribute_template_id, specifications,
+                            album_id, pictures, price, stock, stock_threshold, sales, comment_count,
+                            positive_comment_count, sort)
+        values ( #{sku.spuId}, #{sku.title}, #{barCode}, #{attibuteTemplateId}, #{specifications}
+               , #{alnumId}, #{pictures}, #{price}, #{stock}, #{stockThreshold}, #{sales}, #{commentCount}
+               , #{positiveCommentCount}, #{sort})
+    </insert>
+
+    <insert id="insertBatch">
+        insert into pms_sku(spu_id, title, bar_code, attribute_template_id, specifications,
+        album_id, pictures, price,stock,stock_threshold,sales,comment_count,positive_comment_count,sort) values
+        <foreach collection="list" item="sku" separator=",">
+            (#{sku.spuId},#{sku.title},#{sku.barCode},#{sku.attibuteTemplateId},#{sku.specifications}
+            ,#{sku.alnumId},#{sku.pictures},#{sku.price},#{sku.stock},#{sku.stockThreshold},#{sku.sales},#{sku.commentCount},#{sku.positiveCommentCount},#{sku.sort})
+        </foreach>
+    </insert>
+
+    <delete id="deleteById">
+        delete
+        from pms_sku
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteByIds">
+        delete from pms_sku where id in (
+        <foreach collection="list" item="id" separator=",">
+            #{id}
+        </foreach>
+        )
+    </delete>
+
+    <update id="update">
+        update pms_sku
+        <set>
+            <if test="spuId!= null">
+                #{spuId},
+            </if>
+            <if test="title!= null">
+                #{title},
+            </if>
+            <if test="barCode!= null">
+                #{barCode},
+            </if>
+            <if test="attributeTemplateId!= null">
+                #{attributeTemplateId},
+            </if>
+            <if test="specifications!= null">
+                #{specifications},
+            </if>
+            <if test="albumId!= null">
+                #{albumId},
+            </if>
+            <if test="pictures!= null">
+                #{pictures},
+            </if>
+            <if test="price!= null">
+                #{price},
+            </if>
+            <if test="stock!= null">
+                #{stock},
+            </if>
+            <if test="stock_threshold!= null">
+                #{stock_threshold},
+            </if>
+            <if test="sales!= null">
+                #{sales},
+            </if>
+            <if test="commentCount!= null">
+                #{commentCount},
+            </if>
+            <if test="positiveCommentCount!= null">
+                #{positiveCommentCount},
+            </if>
+            <if test="sort!= null">
+                #{sort},
+            </if>
+            <if test="gmtCreate!= null">
+                #{gmtCreate},
+            </if>
+            <if test="gmtModified!= null">
+                #{gmtModified}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <select id="count" resultType="int">
+        select count(*)
+        from pms_sku
+    </select>
+
+    <select id="countByName" resultType="int">
+        select count(*)
+        from pms_sku
+    </select>
+
+
+    <sql id="select">
+        select id,
+               spu_id,
+               title,
+               bar_code,
+               attribute_template_id,
+               specifications,
+               album_id,
+               pictures,
+               price,
+               stock,
+               stock_threshold,
+               sales,
+               comment_count,
+               positive_comment_count,
+               sort
+        from pms_sku
+    </sql>
+    <select id="getStandardById" resultType="cn.tedu.csmall.product.pojo.entity.Sku">
+        <include refid="select">
+        </include>
+        where id=#{id}
+    </select>
+
+    <select id="list" resultType="cn.tedu.csmall.product.pojo.entity.Sku">
+        <include refid="select">
+        </include>
+        ORDER BY sort DESC, id DESC
+    </select>
+</mapper>

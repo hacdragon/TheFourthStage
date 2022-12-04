@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.tedu.csmall.product.mapper.SpuMapper">
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into mall_pms.pms_spu (name, type_number, title, description, list_price, stock, stock_threshold,
+                                      unit, brand_id, brand_name, category_id, category_name, attribute_template_id,
+                                      album_id, pictures, keywords, tags, sales, comment_count, positive_comment_count,
+                                      sort, is_deleted, is_published, is_new_arrival, is_recommend, is_checked,
+                                      check_user)
+        VALUES ( #{name}, #{typeNumber}, #{title}, #{description}, #{listPrice}, #{stock}, #{stockThreshold}, #{unit}
+               , #{brandId}, #{brandName}, #{categoryId}
+               , #{categoryName}, #{attibuteTemplateId}, #{albumId}, #{pictures}, #{keywords}, #{tags}, #{sales}
+               , #{commentCount}, #{positiveCommentCount}
+               , #{sort}, #{isDeleted}, #{isPublished}, #{isNewArrival}, #{isRecommend}, #{isCheack}, #{cheackUser})
+    </insert>
+
+    <insert id="insertBatch">
+        insert into mall_pms.pms_spu (name, type_number, title, description, list_price, stock, stock_threshold,
+        unit, brand_id, brand_name, category_id, category_name, attribute_template_id,
+        album_id, pictures, keywords, tags, sales, comment_count, positive_comment_count,
+        sort, is_deleted, is_published, is_new_arrival, is_recommend, is_checked, check_user) VALUES
+        <foreach collection="list" item="spu" separator=",">
+            (#{spu.name},#{spu.typeNumber},#{spu.title},#{spu.description},#{spu.listPrice},#{spu.stock},#{spu.stockThreshold},#{spu.unit},#{spu.brandId},#{spu.brandName},#{spu.categoryId}
+            ,#{spu.categoryName},#{spu.attibuteTemplateId},#{spu.albumId},#{spu.pictures},#{spu.keywords},#{spu.tags},#{spu.sales},#{spu.commentCount},#{spu.positiveCommentCount}
+            ,#{spu.sort},#{spu.isDeleted},#{spu.isPublished},#{spu.isNewArrival},#{spu.isRecommend},#{spu.isCheack},#{spu.cheackUser})
+        </foreach>
+    </insert>
+
+    <delete id="deleteById">
+        delete
+        from mall_pms.pms_spu
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteByIds">
+        delete from mall_pms.pms_spu where id in (
+        <foreach collection="list" item="id" separator=",">
+            #{id}
+        </foreach>
+        )
+    </delete>
+
+    <update id="update">
+        update mall_pms.pms_spu
+        <set>
+            <if test="name!= null">
+                #{name},
+            </if>
+            <if test="typeNumber!= null">
+                #{typeNumber},
+            </if>
+            <if test="title!= null">
+                #{title},
+            </if>
+            <if test="description!= null">
+                #{description},
+            </if>
+            <if test="listPrice!= null">
+                #{listPrice},
+            </if>
+            <if test="stock!= null">
+                #{stock},
+            </if>
+            <if test="stockThreshold!= null">
+                #{stockThreshold},
+            </if>
+            <if test="unit!= null">
+                #{unit},
+            </if>
+            <if test="brandId!= null">
+                #{brandId},
+            </if>
+            <if test="brandName!= null">
+                #{brandName},
+            </if>
+            <if test="categoryId!= null">
+                #{categoryId},
+            </if>
+            <if test="categoryName!= null">
+                #{categoryName},
+            </if>
+            <if test="attributeTemplateId!= null">
+                #{attributeTemplateId},
+            </if>
+            <if test="albumId!= null">
+                #{albumId},
+            </if>
+            <if test="pictures!= null">
+                #{pictures},
+            </if>
+            <if test="keywords!= null">
+                #{keywords},
+            </if>
+            <if test="tags!= null">
+                #{tags},
+            </if>
+            <if test="sales!= null">
+                #{sales},
+            </if>
+            <if test="commentCount!= null">
+                #{commentCount},
+            </if>
+            <if test="positiveCommentCount!= null">
+                #{positiveCommentCount},
+            </if>
+            <if test="sort!= null">
+                #{sort},
+            </if>
+            <if test="isDeleted!= null">
+                #{isDeleted},
+            </if>
+            <if test="isPublished!= null">
+                #{isPublished},
+            </if>
+            <if test="isNewArrival!= null">
+                #{isNewArrival},
+            </if>
+            <if test="isCheack!= null">
+                #{isCheack},
+            </if>
+            <if test="isRecommend!= null">
+                #{isRecommend},
+            </if>
+            <if test="checkUser!= null">
+                #{checkUser},
+            </if>
+            <if test="gmtCreate!= null">
+                #{gmtCreate},
+            </if>
+            <if test="gmtCheck!= null">
+                #{gmtCheck},
+            </if>
+            <if test="gmtModified!= null">
+                #{gmtModified},
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <select id="count" resultType="int">
+        select count(*)
+        from mall_pms.pms_spu;
+    </select>
+
+    <select id="countByName" resultType="int">
+        select count(*)
+        from mall_pms.pms_spu
+        where name = #{name}
+    </select>
+
+    <sql id="select">
+        select id,
+               name,
+               type_number,
+               title,
+               description,
+               list_price,
+               stock,
+               stock_threshold,
+               unit,
+               brand_id,
+               brand_name,
+               category_id,
+               category_name,
+               attribute_template_id,
+               album_id,
+               pictures,
+               keywords,
+               tags,
+               sales,
+               comment_count,
+               positive_comment_count,
+               sort,
+               is_deleted,
+               is_published,
+               is_new_arrival,
+               is_recommend,
+               is_checked,
+               check_user,
+               gmt_check
+        from mall_pms.pms_spu
+    </sql>
+    <select id="getStandardById" resultType="cn.tedu.csmall.product.pojo.entity.Spu">
+        <include refid="select">
+        </include>
+        where id=#{id}
+    </select>
+
+    <select id="list" resultType="cn.tedu.csmall.product.pojo.entity.Spu">
+        <include refid="select">
+        </include>
+        ORDER BY sort DESC, id DESC
+    </select>
+</mapper>

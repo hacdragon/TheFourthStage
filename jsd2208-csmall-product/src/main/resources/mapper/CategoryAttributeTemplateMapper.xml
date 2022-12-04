@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.tedu.csmall.product.mapper.CategoryAttributeTemplateMapper">
+    <insert id="insert">
+        insert into pms_category_attribute_template(category_id,attribute_template_id) values (#{categoryId},#{attributeTemplateId})
+    </insert>
+
+    <insert id="insertBatch">
+        insert into pms_category_attribute_template(category_id,attribute_template_id) values
+            <foreach collection="list" item="CategoryAttributeTemplate" separator=",">
+                (#{CategoryAttributeTemplate.categoryId},#{CategoryAttributeTemplate.attributeTemplateId})
+            </foreach>
+    </insert>
+
+    <delete id="deleteById">
+        delete from pms_category_attribute_template where id=#{id}
+    </delete>
+
+    <delete id="deleteByIds">
+        delete from pms_category_attribute_template where id in (
+            <foreach collection="list" item="id" separator=",">
+                #{id}
+            </foreach>
+            )
+    </delete>
+
+    <update id="update">
+        update pms_category_attribute_template
+            <set>
+                <if test="categoryId!= null">
+                    #{categoryId},
+                </if>
+                <if test="attributeTemplateId!= null">
+                    #{attributeTemplateId},
+                </if>
+                <if test="gmtCreate!= null">
+                    #{gmtCreate},
+                </if>
+                <if test="gmtModified!= null">
+                    #{gmtModified}
+                </if>
+            </set>
+    </update>
+
+    <select id="count" resultType="int">
+        select count(*) from pms_category_attribute_template;
+    </select>
+
+    <select id="countByName" resultType="int">
+        select count(*) from pms_category_attribute_template;
+    </select>
+
+    <sql id="select">
+        select id,category_id,attribute_template_id from pms_category_attribute_template
+    </sql>
+    <select id="getStandardById" resultType="cn.tedu.csmall.product.pojo.entity.CategoryAttributeTemplate">
+        <include refid="select"></include> where id=#{id}
+    </select>
+
+    <select id="list" resultType="cn.tedu.csmall.product.pojo.vo.AlbumListItemVO">
+        <include refid="select"></include> ORDER BY sort DESC, id DESC
+    </select>
+</mapper>

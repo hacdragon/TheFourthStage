@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.tedu.csmall.product.mapper.PictureMapper">
+    <insert id="insert">
+        insert into pms_picture (album_id, url, description, width, height)
+        VALUES (#{albumId}, #{url}, #{description}, #{width}, #{height})
+    </insert>
+
+    <insert id="insertBatch">
+        insert into pms_picture (album_id, url, description, width, height) VALUES
+        <foreach collection="list" item="Picture" separator=",">
+            (#{Picture.albumId},#{Picture.url},#{Picture.description},#{Picture.width},#{Picture.height})
+        </foreach>
+    </insert>
+
+    <delete id="deleteById">
+        delete
+        from pms_picture
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteByIds">
+        delete from pms_picture where id in (
+        <foreach collection="list" item="id" separator=",">
+            #{id}
+        </foreach>
+        )
+    </delete>
+
+    <update id="update">
+        update pms_picture
+        <set>
+            <if test="albumId!= null">
+                #{albumId},
+            </if>
+            <if test="url!= null">
+                #{url},
+            </if>
+            <if test="description!= null">
+                #{description},
+            </if>
+            <if test="width!= null">
+                #{width},
+            </if>
+            <if test="height!= null">
+                #{height},
+            </if>
+            <if test="gmtCreate!= null">
+                #{gmtCreate},
+            </if>
+            <if test="gmtModified!= null">
+                #{gmtModified},
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <select id="count" resultType="java.lang.Integer">
+        select count(*)
+        from pms_picture;
+    </select>
+
+    <select id="countByName" resultType="java.lang.Integer">
+        select count(*)
+        from pms_picture;
+    </select>
+
+    <sql id="select">
+        select id, album_id, url, description, width, height
+        from pms_picture
+    </sql>
+
+    <select id="getStandardById" resultType="cn.tedu.csmall.product.pojo.entity.Picture">
+        <include refid="select">
+        </include>
+        where id=#{id}
+    </select>
+
+    <select id="list" resultType="cn.tedu.csmall.product.pojo.entity.Picture">
+        <include refid="select">
+        </include>
+        ORDER BY sort DESC, id DESC
+    </select>
+</mapper>

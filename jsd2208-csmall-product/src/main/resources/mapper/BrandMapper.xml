@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.tedu.csmall.product.mapper.BrandMapper">
+    <insert id="insert">
+        insert into pms_brand (name,pinyin,logo,description,keywords,sort,sales,product_count,
+        comment_count,positive_comment_count,enable) values
+            (#{name},#{pinyin},#{logo},#{description},#{keywords},#{sort},#{sales},#{productCount},
+             #{commentCount},#{positiveCommentCount},#{enable})
+    </insert>
+
+    <insert id="insertBatch">
+        insert into pms_brand (name,pinyin,logo,description,keywords,sort,sales,product_count,
+                               comment_count,positive_comment_count,enable) values
+            <foreach collection="list" item="Brand" separator=",">
+                (#{Brand.name},#{Brand.pinyin},#{Brand.logo},#{Brand.description},#{Brand.keywords},#{Brand.sort},#{Brand.sales},#{Brand.productCount},
+                #{Brand.commentCount},#{Brand.positiveCommentCount},#{Brand.enable})
+            </foreach>
+    </insert>
+
+    <delete id="deleteById">
+        delete from pms_brand where id=#{id}
+    </delete>
+
+    <delete id="deleteByIds">
+        delete from pms_brand where id in
+            <foreach collection="list" item="id" separator=",">
+                #{id}
+            </foreach>
+    </delete>
+
+    <update id="update">
+        update pms_brand
+            <set>
+                <if test="name!= null">
+                    #{name},
+                </if>
+                <if test="pinyin!=null">
+                    #{pinyin},
+                </if>
+                <if test="logo!=null">
+                    #{logo},
+                </if>
+                <if test="description!=null">
+                    #{description},
+                </if>
+                <if test="keywords!=null">
+                    #{keywords},
+                </if>
+                <if test="sort!=null">
+                    #{sort},
+                </if>
+                <if test="sales!=null">
+                    #{sales},
+                </if>
+                <if test="productCount!=null">
+                    #{productCount},
+                </if>
+                <if test="commentCount!=null">
+                    #{commentCount},
+                </if>
+                <if test="positiveCommentCount!=null">
+                    #{positiveCommentCount},
+                </if>
+                <if test="gmtCreate!=null">
+                    #{gmtCreate},
+                </if>
+                <if test="gmtModified!=null">
+                    #{gmtModified}
+                </if>
+            </set> where id=#{id}
+    </update>
+
+    <select id="count" resultType="int">
+        select count(*) from pms_brand;
+    </select>
+
+    <select id="countByName" resultType="int">
+        select count(*) from pms_brand where name=#{name}
+    </select>
+
+    <sql id="select">
+        select id, name ,pinyin,description,keywords,logo,
+               sort,sales,product_count,comment_count,positive_comment_count,enable from pms_brand
+    </sql>
+    <select id="getStandardById" resultType="cn.tedu.csmall.product.pojo.entity.Brand">
+        <include refid="select"></include> where id=#{id}
+    </select>
+
+    <select id="list" resultType="cn.tedu.csmall.product.pojo.entity.Brand">
+        <include refid="select"></include> ORDER BY sort DESC, id DESC
+    </select>
+</mapper>

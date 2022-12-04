@@ -1,0 +1,19 @@
+# ########################### #
+# 当前文件中的是【开发环境】的配置 #
+# ########################### #
+
+# Web服务端口
+server:
+  port: 9080
+
+# 连接数据库的配置
+spring:
+  datasource:
+    url: jdbc:mysql://10.6.6.99:3306/mall_pms?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Chongqing
+    username: dragon
+    password: dragon66
+
+# 日志的显示级别
+logging:
+  level:
+    cn.tedu.csmall: trace
